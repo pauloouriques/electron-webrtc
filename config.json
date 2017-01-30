@@ -1,0 +1,10 @@
+{
+  "linux" : {
+    "arch" : 64,
+    "target" : "deb",
+    "version" : "1.0",
+    "title" : "Electron WebRTC",
+    "executable" : "ElectronWebRTC",
+    "maintainer": "Paulo Ouriques <paulo.ouriques@virtus.ufcg.edu.br>"
+  }
+}
