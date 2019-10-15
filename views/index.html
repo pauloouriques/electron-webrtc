@@ -1,6 +1,7 @@
 <!--
 > Muaz Khan       - wwww.MuazKhan.com
 > MIT License     - www.WebRTC-Experiment.com/licence
+> Upgrade by Paulo Ouriques
 > Documentation   - github.com/muaz-khan/WebRTC-Experiment/tree/master/video-conferencing
 -->
 <!DOCTYPE html>
@@ -56,10 +57,10 @@
         // MIT License   - https://www.webrtc-experiment.com/licence/
         // Documentation - https://github.com/muaz-khan/WebRTC-Experiment/tree/master/video-conferencing
 
-        var config = {
+        let config = {
             openSocket: function (config) {
-                var channel = "endostreamer-channel";
-                var socket = new Firebase('https://webrtc.firebaseio.com/' + channel);
+                let channel = "endostreamer-channel";
+                let socket = new Firebase('https://webrtc.firebaseio.com/' + channel);
                 socket.channel = channel;
                 socket.on("child_added", function (data) {
                     config.onmessage && config.onmessage(data.val());
@@ -72,7 +73,7 @@
                 return socket;
             },
             onRemoteStream: function (media) {
-                var mediaElement = getMediaElement(media.video, {
+                let mediaElement = getMediaElement(media.video, {
                     width: (videosContainer.clientWidth / 2) - 50,
                     buttons: ['mute-audio', 'mute-video', 'full-screen', 'volume-slider']
                 });
@@ -85,24 +86,24 @@
                 }
             },
             onRoomFound: function (room) {
-                var alreadyExist = document.querySelector('button[data-broadcaster="' + room.broadcaster + '"]');
+                let alreadyExist = document.querySelector('button[data-broadcaster="' + room.broadcaster + '"]');
                 if (alreadyExist) return;
 
                 if (typeof roomsList === 'undefined') roomsList = document.body;
 
-                var tr = document.createElement('tr');
+                let tr = document.createElement('tr');
                 tr.innerHTML = '<td><strong>' + room.roomName + '</strong> shared a conferencing room with you!</td>' +
                         '<td><button class="join">Join</button></td>';
                 roomsList.insertBefore(tr, roomsList.firstChild);
 
-                var joinRoomButton = tr.querySelector('.join');
+                let joinRoomButton = tr.querySelector('.join');
                 joinRoomButton.setAttribute('data-broadcaster', room.broadcaster);
                 joinRoomButton.setAttribute('data-roomToken', room.roomToken);
                 joinRoomButton.onclick = function () {
                     this.disabled = true;
 
-                    var broadcaster = this.getAttribute('data-broadcaster');
-                    var roomToken = this.getAttribute('data-roomToken');
+                    let broadcaster = this.getAttribute('data-broadcaster');
+                    let roomToken = this.getAttribute('data-roomToken');
                     captureUserMedia(function () {
                         conferenceUI.joinRoom({
                             roomToken: roomToken,
@@ -114,7 +115,7 @@
                 };
             },
             onRoomClosed: function (room) {
-                var joinButton = document.querySelector('button[data-roomToken="' + room.roomToken + '"]');
+                let joinButton = document.querySelector('button[data-roomToken="' + room.roomToken + '"]');
                 if (joinButton) {
                     // joinButton.parentNode === <li>
                     // joinButton.parentNode.parentNode === <td>
@@ -137,7 +138,7 @@
         }
 
         function captureUserMedia(callback, failure_callback) {
-            var video = document.createElement('video');
+            let video = document.createElement('video');
 
             getUserMedia({
                 video: video,
@@ -147,7 +148,7 @@
 
                     video.setAttribute('muted', true);
 
-                    var mediaElement = getMediaElement(video, {
+                    let mediaElement = getMediaElement(video, {
                         width: (videosContainer.clientWidth / 2) - 50,
                         buttons: ['mute-audio', 'mute-video', 'full-screen', 'volume-slider']
                     });
@@ -161,12 +162,12 @@
             });
         }
 
-        var conferenceUI = conference(config);
+        let conferenceUI = conference(config);
 
         /* UI specific */
-        var videosContainer = document.getElementById('videos-container') || document.body;
-        var btnSetupNewRoom = document.getElementById('setup-new-room');
-        var roomsList = document.getElementById('rooms-list');
+        let videosContainer = document.getElementById('videos-container') || document.body;
+        let btnSetupNewRoom = document.getElementById('setup-new-room');
+        let roomsList = document.getElementById('rooms-list');
 
         if (btnSetupNewRoom) btnSetupNewRoom.onclick = setupNewRoomButtonClickHandler;
 
@@ -179,19 +180,19 @@
 
 
         function scaleVideos() {
-            var videos = document.querySelectorAll('video'),
+            let videos = document.querySelectorAll('video'),
                     length = videos.length, video;
 
-            var minus = 130;
-            var windowHeight = 700;
-            var windowWidth = 600;
-            var windowAspectRatio = windowWidth / windowHeight;
-            var videoAspectRatio = 4 / 3;
-            var blockAspectRatio;
-            var tempVideoWidth = 0;
-            var maxVideoWidth = 0;
+            let minus = 130;
+            let windowHeight = 700;
+            let windowWidth = 600;
+            let windowAspectRatio = windowWidth / windowHeight;
+            let videoAspectRatio = 4 / 3;
+            let blockAspectRatio;
+            let tempVideoWidth = 0;
+            let maxVideoWidth = 0;
 
-            for (var i = length; i > 0; i--) {
+            for (let i = length; i > 0; i--) {
                 blockAspectRatio = i * videoAspectRatio / Math.ceil(length / i);
                 if (blockAspectRatio <= windowAspectRatio) {
                     tempVideoWidth = videoAspectRatio * windowHeight / Math.ceil(length / i);
@@ -201,7 +202,7 @@
                 if (tempVideoWidth > maxVideoWidth)
                     maxVideoWidth = tempVideoWidth;
             }
-            for (var i = 0; i < length; i++) {
+            for (let i = 0; i < length; i++) {
                 video = videos[i];
                 if (video)
                     video.width = maxVideoWidth - minus;
